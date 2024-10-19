@@ -20,6 +20,8 @@ open class BaseViewModel : ViewModel() {
 
     protected var _internalState = MutableStateFlow(BaseViewState())
     var internalState = _internalState.asStateFlow()
+    private var _errorLiveData = SingleLiveEvent<ErrorState>()
+    var errorLiveData = _errorLiveData
     private val jobs = SupervisorJob()
 
     fun <T> launch(
@@ -43,10 +45,10 @@ open class BaseViewModel : ViewModel() {
         throwable?.printStackTrace()
         when (throwable) {
             is UnknownHostException,is HttpException  -> {
-                _internalState.value = ErrorState(message = "connection error")
+                _errorLiveData.value = ErrorState(message = "connection error")
             }
             else -> {
-                _internalState.value = ErrorState()
+                _errorLiveData.value = ErrorState()
             }
         }
     }

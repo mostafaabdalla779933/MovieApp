@@ -47,12 +47,12 @@ abstract class BaseFragment<V : ViewBinding, VM : BaseViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.errorLiveData.observe(viewLifecycleOwner){
+            showErrorMsg(it.message ?: "Something went wrong")
+        }
         lifecycleScope.launch {
             viewModel.internalState.collect {
                 when (it) {
-                    is ErrorState -> {
-                        showErrorMsg(it.message ?: "Something went wrong")
-                    }
                     is Loader.Progress -> {
                         if (it.show) showLoading() else hideLoading()
                     }
