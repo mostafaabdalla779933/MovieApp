@@ -16,7 +16,7 @@ class MoviesListFragment : BaseFragment<FragmentMoviesListBinding, MoviesListVM>
     private val adapter : MoviesAdapter by lazy {
         MoviesAdapter(
             onclick = {
-
+                findNavController().navigate(MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailsFragment(it))
             },
             onFavoriteClick = {
 
