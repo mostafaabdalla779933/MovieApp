@@ -101,4 +101,10 @@ dependencies {
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
+    // MockK for mocking dependencies in tests
+    testImplementation ("io.mockk:mockk:1.12.0")
+    testImplementation ("io.mockk:mockk-android:1.12.0")
+    androidTestImplementation ("io.mockk:mockk-android:1.12.0")
+    androidTestImplementation ("androidx.arch.core:core-testing:2.2.0")
+
 }
