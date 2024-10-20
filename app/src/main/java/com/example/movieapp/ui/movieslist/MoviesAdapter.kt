@@ -11,7 +11,7 @@ import com.example.movieapp.data.model.MovieModel
 import com.example.movieapp.databinding.ItemMovieBinding
 
 
-class MoviesAdapter(private var list: List<MovieModel?> = emptyList(), val onclick: (MovieModel) -> Unit, val onFavoriteClick: (MovieModel) -> Unit) :
+class MoviesAdapter(private var list: MutableList<MovieModel?> = mutableListOf(), val onclick: (MovieModel) -> Unit, val onFavoriteClick: (MovieModel, Boolean) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class MoviesViewHolder(private val rowView: ItemMovieBinding) :
@@ -33,13 +33,20 @@ class MoviesAdapter(private var list: List<MovieModel?> = emptyList(), val oncli
                     )
                     .into(ivMoviePoster)
                 ivFavorite.setOnClickListener {
-                    onFavoriteClick(item)
+                    onFavoriteClick(item,!ivFavorite.isSelected)
+                    list[position]?.isFavorite = !(list[position]?.isFavorite ?: false)
+                    notifyItemChanged(position)
                 }
                 root.setOnClickListener {
                     onclick(item)
                 }
             }
         }
+    }
+
+    fun updateMovie(movie: MovieModel){
+        list.find { it?.id == movie.id }?.isFavorite = movie.isFavorite
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -60,7 +67,7 @@ class MoviesAdapter(private var list: List<MovieModel?> = emptyList(), val oncli
         }
     }
 
-    fun setMovieList(list: List<MovieModel?>) {
+    fun setMovieList(list: MutableList<MovieModel?>) {
         this.list = list
         notifyDataSetChanged()
     }

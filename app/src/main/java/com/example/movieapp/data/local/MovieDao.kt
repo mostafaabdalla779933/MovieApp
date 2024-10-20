@@ -14,8 +14,8 @@ interface MovieDao {
     fun getAllMovies(): Flow<List<MovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addMovieItem(movie : MovieEntity) : Long?
+    fun addMovieItem(movie : MovieEntity) : Long
 
     @Query("DELETE FROM fav_movie_table WHERE id = :id")
-    fun deleteMovieById(id : Int) : Int?
+    fun deleteMovieById(id : Int) : Int
 }

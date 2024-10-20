@@ -26,7 +26,7 @@ open class BaseViewModel : ViewModel() {
 
     fun <T> launch(
         request: Flow<T>,
-        successHandler: suspend (T) -> Unit,
+        successHandler: suspend (T) -> Unit = {},
         errorHandler: suspend (Throwable?) -> Unit,
         loadingHandler: suspend (Boolean) -> Unit = { _internalState.value = Loader.Progress(it) }
     ) {
